@@ -51,15 +51,21 @@ class SubscriptionService implements BuyInterface, RenewInterface, CancelInterfa
 
     public function cancel(TransactionEntity $transactionEntity): array
     {
-        $result = $this->transactionRepository->createTransaction($transactionEntity);
-        $this->userService->revokeTokens($transactionEntity->userId);
-
-        return $result;
+        return $this->transactionRepository->createTransaction($transactionEntity);
     }
 
     public function renew(TransactionEntity $transactionEntity): array
     {
-        return $this->transactionRepository->createTransaction($transactionEntity);
+
+        $result = $this->transactionRepository->createTransaction($transactionEntity);
+        $this->userService->attachToken(
+            $transactionEntity->userId,
+            [
+                'subscription:can_use'
+            ]
+        );
+
+        return $result;
     }
 
     public function failedRenew(TransactionEntity $transactionEntity): array

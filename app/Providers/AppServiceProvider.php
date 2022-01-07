@@ -7,6 +7,7 @@ use App\Repositories\Contracts\ReadTransactionRepositoryInterface;
 use App\Repositories\Contracts\WriteTransactionRepositoryInterface;
 use App\Repositories\TransactionRepository;
 use App\Services\DataMappers\AppleTransactionDataMapper;
+use App\Services\DataMappers\Contracts\DataMapperInterface;
 use App\Services\Subscription\Contracts\BuyInterface;
 use App\Services\Subscription\Contracts\CancelInterface;
 use App\Services\Subscription\Contracts\FailedRenewInterface;
@@ -29,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CancelInterface::class, SubscriptionService::class);
 
         $this->app->when(AppleNotificationController::class)
-            ->needs('$dataMapper')
+            ->needs(DataMapperInterface::class)
             ->give(AppleTransactionDataMapper::class);
 
         $this->app->bind(WriteTransactionRepositoryInterface::class, TransactionRepository::class);

@@ -17,7 +17,7 @@ class TransactionCest
     public function testTransaction(ApiTester $I, Example $example)
     {
         $I->sendPost('api/subscription', $example['request']);
-        $I->seeResponseIsJson();
+        dd($I->grabResponse());
         $I->canSeeResponseContainsJson(['success' => true]);
     }
 
@@ -30,8 +30,8 @@ class TransactionCest
                     'notification_type' => 'INITIAL_BUY',
                     'unified_receipt' => [
                         'expire_date_ms' => time(),
-                        'transaction_id' => Factory::create()->md5,
-                        'product_id' => Factory::create()->word,
+                        'transaction_id' => Factory::create()->md5(),
+                        'product_id' => Factory::create()->word(),
                     ]
                 ]
             ],
@@ -41,8 +41,8 @@ class TransactionCest
                     'notification_type' => 'DID_RENEW',
                     'unified_receipt' => [
                         'expire_date_ms' => time(),
-                        'transaction_id' => Factory::create()->md5,
-                        'product_id' => Factory::create()->word,
+                        'transaction_id' => Factory::create()->md5(),
+                        'product_id' => Factory::create()->word(),
                     ]
                 ]
             ],
@@ -52,8 +52,8 @@ class TransactionCest
                     'notification_type' => 'CANCEL',
                     'unified_receipt' => [
                         'expire_date_ms' => time(),
-                        'transaction_id' => Factory::create()->md5,
-                        'product_id' => Factory::create()->word,
+                        'transaction_id' => Factory::create()->md5(),
+                        'product_id' => Factory::create()->word(),
                     ]
                 ]
             ],
@@ -63,8 +63,8 @@ class TransactionCest
                     'notification_type' => 'DID_FAIL_TO_RENEW',
                     'unified_receipt' => [
                         'expire_date_ms' => time(),
-                        'transaction_id' => Factory::create()->md5,
-                        'product_id' => Factory::create()->word,
+                        'transaction_id' => Factory::create()->md5(),
+                        'product_id' => Factory::create()->word(),
                     ]
                 ]
             ],

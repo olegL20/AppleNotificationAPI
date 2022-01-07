@@ -31,11 +31,13 @@ class AppleTransactionDataMapper implements DataMapperInterface
             case self::FAILED_RENEW:
                 $transactionEntity->transactionType = TransactionTypeEnums::FAILED_RENEW;
                 break;
+            default:
+                throw new \Exception('Not matched notification type');
         }
 
-        $transactionEntity->userId = $request->input('user_id');
+        $transactionEntity->userId = (int)$request->input('user_id');
         $transactionEntity->transactionId = $request->input('unified_receipt.Latest_receipt_info.transaction_id');
-        $transactionEntity->expireDate = $request->input('unified_receipt.Latest_receipt_info.expire_date_ms');
+        $transactionEntity->expireDate = (int)$request->input('unified_receipt.Latest_receipt_info.expire_date_ms');
         $transactionEntity->subscriptionId = $request->input('unified_receipt.Latest_receipt_info.product_id');
 
         return $transactionEntity;
